@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'semantic-ui-css/semantic.min.css'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import {GlobalProvider} from "./context/AuthContext/GlobalState"
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalProvider>
+      <App />
+      </GlobalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

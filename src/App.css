@@ -1,38 +1,136 @@
-.App {
-  text-align: center;
+.auth-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 40vw;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.card-height{
+  position: relative;
+  height: 30vh;
+  padding: 1rem 0;
+  overflow-y: scroll;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.card-height::-webkit-scrollbar{
+  display: none;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.card-height p{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+.navbar{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: row;
+  background-color: #cccccc;
+  height: 4rem;
+}
+.navbar .item{
+  font-size: 1.1rem;
+  padding: 1rem;
+  cursor: pointer;
+  color: black;
+}
+.add-image {
+  position: relative;
+  cursor: pointer;
+  width: 12rem;
+  height: 12rem;
+  border: 1px solid #e0e0d1;
+}
+.add-image .icon {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+.add-image img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+.thread-temp{
+  padding-top: 2rem;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+}
+.thread-temp .feed{
+
+}
+.thread-temp .main .buttons{
+  margin-top: 1rem;
+}
+.list-tem{
+  display: flex;
+  width: 90%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.list-tem div{
+  display: flex;
+  flex-direction: row;
+}
+.list-tem .icons{
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem;
+}
+.emojies{
+  background-color: #f5f5f5;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  height: 2.7rem;
+  border-radius: 1rem;
+
+}
+.emojies p{
+  padding:0.2rem 0.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.highlights-label{
+  font-size: 0.8rem;
+  padding-left:1.5rem ;
+  cursor: pointer;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.datetimepicker{
+  margin-top: -2rem;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+  width: 20rem;
+}
+.search-page{
+  padding: 2rem;
+  
+}
+.space{
+  position: relative;
+  padding:2rem
+}
+.item-backdrop{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  opacity: 0.5;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+.thread-otp{
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+}
+.thread-otp .link{
+  text-decoration: underline;
+  cursor: pointer;
 }
