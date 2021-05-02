@@ -1,8 +1,11 @@
 # Threadchat
+[Live site](https://thread-chat.vercel.app/)
+A multithread debate or chat application in real time.
 
-A multithread debate or chat application m in real time.
+[Demo video](https://vimeo.com/544331666)
 
 By using threadchat application will be get the following features -
+
 
 * User can create a thread with different settings.
 
@@ -24,7 +27,7 @@ By using threadchat application will be get the following features -
 
 ## Thread
 
-* Thread is a live , real time page having interaction using ## websockets
+* Thread is a live , real time page having interaction using websockets.
 
 
 * Thread has two view one is for the admin and one for the audience , admin is the on who creates the chat.
@@ -45,6 +48,7 @@ By using threadchat application will be get the following features -
 * Admin has the control over the settings
 * Admin can make the chat private anytime.
 
+* User gets email invitation when they are added to private threads.
 
 * If admin leaves the thread without making someone else an admin , then the next immediate person in the thread becomes the admin
 * Audience view 
