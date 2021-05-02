@@ -206,7 +206,7 @@ padding-top: -5rem;
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  z-index: 9999999999999999999999999999999;
+  z-index: 999999999999999999999999999999999999999;
   -webkit-box-reflect: below 1px linear-gradient(transparent,#0001);
 }
 .container .loader{
