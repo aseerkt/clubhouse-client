@@ -22,7 +22,7 @@ export default function AddMemberModal({
       const token = await localStorage.getItem("hackathon");
       if (token) {
         await axios
-          .get("http://192.168.0.105:3005/api/users/getUser", {
+          .get("https://threadoverflow.herokuapp.com/api/users/getUser", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

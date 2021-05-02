@@ -30,7 +30,7 @@ export default function AuthPage() {
     } else {
       setLoader(true);
       await axios
-        .post("http://192.168.0.105:3005/api/user/sendotp", {
+        .post("https://threadoverflow.herokuapp.com/api/user/sendotp", {
           emailId: emailid,
         })
         .then((res) => {
@@ -52,7 +52,7 @@ export default function AuthPage() {
     } else {
       setLoader(true);
       await axios
-        .post("http://192.168.0.105:3005/api/user/verify", {
+        .post("https://threadoverflow.herokuapp.com/api/user/verify", {
           emailId: emailid,
           otp: otp,
           newuser: newuser,

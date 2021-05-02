@@ -23,7 +23,7 @@ export default function Home() {
       const token = await localStorage.getItem("hackathon");
       if (token) {
         await axios
-          .get("http://192.168.0.105:3005/api/chat/getchatrooms", {
+          .get("https://threadoverflow.herokuapp.com/api/chat/getchatrooms", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

@@ -25,7 +25,7 @@ export default function Profile() {
       const token = await localStorage.getItem("hackathon");
       if (token) {
         await axios
-          .get("http://192.168.0.105:3005/api/chat/mychatrooms", {
+          .get("https://threadoverflow.herokuapp.com/api/chat/mychatrooms", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -55,7 +55,7 @@ export default function Profile() {
     const token = localStorage.getItem("hackathon");
     if (token) {
       await axios
-        .delete(`http://192.168.0.105:3005/api/chat/deletethread/${id}`, {
+        .delete(`https://threadoverflow.herokuapp.com/api/chat/deletethread/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

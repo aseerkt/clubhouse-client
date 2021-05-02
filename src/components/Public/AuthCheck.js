@@ -11,7 +11,7 @@ export default function AuthCheck() {
 
       if (token) {
         axios
-          .get("http://192.168.0.105:3005/api/user/me", {
+          .get("https://threadoverflow.herokuapp.com/api/user/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

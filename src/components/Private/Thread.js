@@ -28,7 +28,7 @@ export default function Thread() {
       if (token) {
         setLoading(true);
         await axios
-          .get(`http://192.168.0.105:3005/api/chat/getthread/${params.tid}`, {
+          .get(`https://threadoverflow.herokuapp.com/api/chat/getthread/${params.tid}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

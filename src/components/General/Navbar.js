@@ -11,7 +11,7 @@ export default function Navbar() {
       const token = await localStorage.getItem("hackathon");
       if (token) {
         axios
-          .get("http://192.168.0.105:3005/api/users/getUser", {
+          .get("https://threadoverflow.herokuapp.com/api/users/getUser", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -64,7 +64,7 @@ export default function Navbar() {
       if (token) {
         await axios
           .post(
-            "http://192.168.0.105:3005/api/chat/createchatroom",
+            "https://threadoverflow.herokuapp.com/api/chat/createchatroom",
             { ...formdata, priv_members: priv_mem },
             {
               headers: {
