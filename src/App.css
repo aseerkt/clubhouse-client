@@ -6,29 +6,29 @@
   transform: translate(-50%, -50%);
   width: 40vw;
 }
-.card-height{
+.card-height {
   position: relative;
   height: 30vh;
   padding: 1rem 0;
   overflow-y: scroll;
 }
-.card-height::-webkit-scrollbar{
+.card-height::-webkit-scrollbar {
   display: none;
 }
-.card-height p{
+.card-height p {
   position: absolute;
-  top:50%;
+  top: 50%;
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
 }
-.navbar{
+.navbar {
   display: flex;
   flex-direction: row;
   background-color: #cccccc;
   height: 4rem;
 }
-.navbar .item{
+.navbar .item {
   font-size: 1.1rem;
   padding: 1rem;
   cursor: pointer;
@@ -54,68 +54,65 @@
   width: 100%;
   height: 100%;
 }
-.thread-temp{
+.thread-temp {
   padding-top: 2rem;
   width: 100vw;
   display: grid;
   grid-template-columns: 25% 50% 25%;
 }
-.thread-temp .feed{
-
+.thread-temp .feed {
 }
-.thread-temp .main .buttons{
+.thread-temp .main .buttons {
   margin-top: 1rem;
 }
-.list-tem{
+.list-tem {
   display: flex;
   width: 90%;
   flex-direction: row;
   justify-content: space-between;
 }
-.list-tem div{
+.list-tem div {
   display: flex;
   flex-direction: row;
 }
-.list-tem .icons{
+.list-tem .icons {
   display: flex;
   flex-direction: row;
   padding: 0.5rem;
 }
-.emojies{
+.emojies {
   background-color: #f5f5f5;
   width: fit-content;
   display: flex;
   flex-direction: row;
   height: 2.7rem;
   border-radius: 1rem;
-
 }
-.emojies p{
-  padding:0.2rem 0.5rem;
+.emojies p {
+  padding: 0.2rem 0.5rem;
   font-size: 1.5rem;
   cursor: pointer;
 }
 
-.highlights-label{
+.highlights-label {
   font-size: 0.8rem;
-  padding-left:1.5rem ;
+  padding-left: 1.5rem;
   cursor: pointer;
 }
-.datetimepicker{
+.datetimepicker {
   margin-top: -2rem;
   margin-left: 2rem;
   margin-bottom: 1rem;
   width: 20rem;
 }
-.search-page{
+.search-page {
   padding: 2rem;
-  
 }
-.space{
+.space {
   position: relative;
-  padding:2rem
+  padding: 2rem;
 }
-.item-backdrop{
+.item-backdrop {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -123,14 +120,136 @@
   opacity: 0.5;
   left: 0;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
 }
-.thread-otp{
+.thread-otp {
   display: flex;
   flex-direction: row;
-  width: 60%;
+  width: 100%;
 }
-.thread-otp .link{
+.thread-otp .link {
   text-decoration: underline;
   cursor: pointer;
+}
+.avatar-div {
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 0 auto;
+}
+.avatar-div .aimg {
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10rem;
+}
+.selectedavatar {
+  border: 1px solid red;
+  width: 5rem;
+  height: 5rem;
+}
+.alert {
+  width: 30vw;
+  position: absolute;
+  bottom: 0;
+
+  margin: 1rem;
+}
+.closed-alert {
+  width: 90vw;
+  position: absolute;
+  left: 5vw;
+  top: 20vh;
+  z-index: 9999999999999999999;
+}
+.backdrop {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #000000;
+  opacity: 0.5;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+.mob-menu{
+  display: none;
+}
+.thread-temp .feed {
+  display: block;
+}
+.click-here{
+  text-decoration: underline;
+  cursor: pointer;
+
+}
+.loader {
+  border: 5px solid #000000;
+  border-radius: 50%;
+  border-top: 5px solid red;
+  width:50px;
+  height:50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999999999999999999999999;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); border-top: 5px solid yellow;}
+  100% { -webkit-transform: rotate(360deg); border-top: 5px solid red;}
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); border-top: 5px solid yellow;}
+  100% { transform: rotate(360deg); border-top: 5px solid red;}
+}
+@media only screen and (max-width: 600px) {
+  .search-page {
+    padding: 1rem;
+  }
+  .space {
+    position: relative;
+    padding: 0.5rem;
+  }
+  .thread-temp {
+    padding-top: 1rem;
+    padding: 1rem;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: none;
+  }
+  .thread-temp .feed {
+    display: none;
+  }
+  .thread-temp .main .buttons {
+    margin-top: 1rem;
+  
+  }
+  .thread-otp {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .alert {
+    width: 90vw;
+    position: absolute;
+    bottom: 0;
+  
+    margin: 1rem;
+  }
+  .mob-menu{
+    margin-top: 1rem;
+    display: block;
+  }
+  .auth-form {
+    
+    width: 90vw;
+  }
 }

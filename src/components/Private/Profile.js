@@ -1,23 +1,47 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Header, Icon, Item, Label } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
+import { Header } from "semantic-ui-react";
+import Loader from "../General/Loader";
+import MenuBar from "../General/MenuBar";
+import ProfileHeader from "../General/ProfileHeader";
+import ItemCard from "../General/ItemCard";
 import { useAuthState } from "../../context/AuthContext/GlobalState";
 export default function Profile() {
-  const { user, updateuser } = useAuthState();
-  const [mychatrooms, setMyChatRooms] = useState([]);
-
+  const { user, loginuser } = useAuthState();
+  const history = useHistory();
+  const [loader, setLoader] = useState(false);
+  const [mychatrooms, setMyChatRooms] = useState({
+    all: [],
+    saved: [],
+    upcoming: [],
+    live: [],
+    private: [],
+  });
+  const [current_page, setCurrentPage] = useState("threads");
   useEffect(() => {
     async function getChatRooms() {
+      setLoader(true);
       const token = await localStorage.getItem("hackathon");
       if (token) {
         await axios
-          .get("http://localhost:3005/api/chat/mychatrooms", {
+          .get("http://192.168.0.105:3005/api/chat/mychatrooms", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
           .then((res) => {
-            setMyChatRooms(res.data.chatrooms);
+            setLoader(false);
+            setMyChatRooms({
+              all: res.data.chatrooms,
+              saved: res.data.savedchatrooms,
+              upcoming: res.data.upcomingchatrooms,
+              live: res.data.livechatrooms,
+              private: res.data.privatechatrooms,
+            });
+          })
+          .catch((err) => {
+            setLoader(false);
           });
       }
     }
@@ -31,7 +55,7 @@ export default function Profile() {
     const token = localStorage.getItem("hackathon");
     if (token) {
       await axios
-        .delete(`http://localhost:3005/api/chat/deletethread/${id}`, {
+        .delete(`http://192.168.0.105:3005/api/chat/deletethread/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,57 +66,109 @@ export default function Profile() {
     }
   }
   return (
-    <div style={{ margin: "2rem" }}>
-      <Item.Group divided>
-        <Item style={{ pointer: "cursor" }}>
-          <Item.Content style={{ padding: "2rem" }}>
-            <Item.Header as="a">{user.username}</Item.Header>
-            <Item.Meta>
-              <span className="cinema">{user.emailId}</span>
-            </Item.Meta>
-          </Item.Content>
-        </Item>
-      </Item.Group>
-      <Header as="h3" dividing>
-        My threads
-      </Header>
-      {mychatrooms.map((item, index) => (
-        <a href={!item.schedule_later ? `/thread/${item._id}` : null}>
-          <div className="space">
-            <Item.Group>
-              {item.closed && (
-                <Label as="a" color="red" ribbon>
-                  Saved
-                </Label>
-              )}
-              {item.islive && (
-                <Label as="a" color="green" ribbon>
-                  Live
-                </Label>
-              )}
-              {item.schedule_later && (
-                <Label as="a" color="blue" ribbon>
-                  Live at {getDateTime(item.timing)}
-                </Label>
-              )}
-              <Icon
-                name="zip"
-                size="large"
-                onClick={() => deletethread(item._id)}
-                style={{ zIndex: "5000" }}
-                color="red"
+    <>
+      {loader && <Loader />}
+      <div className="search-page">
+        <ProfileHeader user={user} history={history} loginuser={loginuser} />
+        <Header as="h3" dividing>
+          My threads
+        </Header>
+        <MenuBar
+          current_page={current_page}
+          setCurrentPage={setCurrentPage}
+          type="profile"
+        />
+        {current_page === "threads" && (
+          <>
+            {mychatrooms.all.map((item, index) => (
+              <ItemCard
+                key={index}
+                item={item}
+                getDateTime={getDateTime}
+                deletethread={deletethread}
+                type="profile"
               />
-              <Item>
-                <Item.Content>
-                  <Item.Header as="a">{item.topic}</Item.Header>
-                  <Item.Extra></Item.Extra>
-                  <Item.Description>{item.description}</Item.Description>
-                </Item.Content>
-              </Item>
-            </Item.Group>
+            ))}
+          </>
+        )}
+
+        {current_page === "livethreads" && (
+          <div>
+            {mychatrooms.live.length > 0 ? (
+              <>
+                {mychatrooms.live.map((item, index) => (
+                  <ItemCard
+                    key={index}
+                    item={item}
+                    getDateTime={getDateTime}
+                    deletethread={deletethread}
+                    type="profile"
+                  />
+                ))}
+              </>
+            ) : (
+              <p>No live chats available.</p>
+            )}
           </div>
-        </a>
-      ))}
-    </div>
+        )}
+        {current_page === "privatethreads" && (
+          <div>
+            {mychatrooms.private.length > 0 ? (
+              <>
+                {mychatrooms.private.map((item, index) => (
+                  <ItemCard
+                    key={index}
+                    item={item}
+                    getDateTime={getDateTime}
+                    deletethread={deletethread}
+                    type="profile"
+                  />
+                ))}
+              </>
+            ) : (
+              <p>No live chats available.</p>
+            )}
+          </div>
+        )}
+        {current_page === "savedthreads" && (
+          <div>
+            {mychatrooms.saved.length > 0 ? (
+              <>
+                {mychatrooms.saved.map((item, index) => (
+                  <ItemCard
+                    key={index}
+                    item={item}
+                    getDateTime={getDateTime}
+                    deletethread={deletethread}
+                    type="profile"
+                  />
+                ))}
+              </>
+            ) : (
+              <p>No live chats available.</p>
+            )}
+          </div>
+        )}
+        {current_page === "upcomingthreads" && (
+          <div>
+            {mychatrooms.upcoming.length > 0 ? (
+              <>
+                {mychatrooms.upcoming.map((item, index) => (
+                  <ItemCard
+                    key={index}
+                    item={item}
+                    getDateTime={getDateTime}
+                    deletethread={deletethread}
+                    type="profile"
+                  />
+                ))}
+              </>
+            ) : (
+              <p>No live chats available.</p>
+            )}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

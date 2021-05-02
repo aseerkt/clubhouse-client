@@ -11,7 +11,7 @@ export default function AuthCheck() {
 
       if (token) {
         axios
-          .get("http://localhost:3005/api/user/me", {
+          .get("http://192.168.0.105:3005/api/user/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -22,7 +22,7 @@ export default function AuthCheck() {
               token: res.data.token,
             };
 
-            loginuser(details);
+            loginuser(details,false);
           })
           .catch((err) => {
             console.log(err.response);

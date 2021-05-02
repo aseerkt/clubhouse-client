@@ -4,7 +4,10 @@ import { useHistory, useParams } from "react-router-dom";
 import { useAuthState } from "../../context/AuthContext/GlobalState";
 import ThreadTemp from "../General/ThreadTemp";
 import axios from "axios";
+import InfoAlert from "../General/InfoAlert";
+import Loader from "../General/Loader";
 import AddMemberModal from "../General/AddMemberModal";
+import ClosedAlert from "../General/ClosedAlert";
 export default function Thread() {
   const { user } = useAuthState();
   const history = useHistory();
@@ -12,95 +15,108 @@ export default function Thread() {
   const [socket, setSocket] = useState(null);
   const [thread, setThread] = useState({});
   const [addmembermodal, setAddMemberModal] = useState(false);
-  function eventHandler() {
-    socket.emit("dist", { tid: params.tid }, () => {});
-  }
+  const [timeout, changeTimeout] = useState(null);
+  const [infoalert, setInfoalert] = useState(null);
+  const [erroralert, setErroralert] = useState(null);
+  const [closedalert, setClosedAlert] = useState(null);
+  const [showsettings, setShowSettings] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    async function cd() {
+    async function startconnection() {
       const token = localStorage.getItem("hackathon");
 
       if (token) {
+        setLoading(true);
         await axios
-          .get(`http://localhost:3005/api/chat/getthread/${params.tid}`, {
+          .get(`http://192.168.0.105:3005/api/chat/getthread/${params.tid}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
           .then((res) => {
             if (res.data.thread.closed) {
-              setThread(res.data.thread)
-            } else if(res.data.thread.islive){
-              var newSocket = io("http://localhost:3005", {
+              setLoading(false);
+              setThread(res.data.thread);
+            } else if (res.data.thread.islive) {
+              setLoading(true);
+              var newSocket = io("http://192.168.0.105:3005", {
                 query: {
                   token: localStorage.getItem("hackathon"),
                 },
               });
-              setSocket(newSocket);
+              newSocket.emit("checkid", { tid: params.tid }, (data) => {
+                if (!data.auth) {
+                  setLoading(false);
+                  history.replace("/");
+                } else {
+                  setLoading(false);
+                  setSocket(newSocket);
+                  setThread(data.thread);
+                  setLoading(false);
+                }
+              });
             }
           })
-          .catch((res) => {
-          history.replace("/")
-        })
-        //consolele.log(token);
-        if (socket) {
-          socket.on("connect", () => {});
-          socket.on("threadupdate", (data) => {
-            console.log(data);
-            setThread(data.thread);
-          });
-          socket.on("closeredirect", () => {
+          .catch((err) => {
+            setLoading(false);
             history.replace("/");
           });
-          socket.emit("checkid", { tid: params.tid }, (data) => {
-            if (!data.auth) {
-              history.replace("/");
-            } else {
-              setThread(data.thread);
-            }
-          });
-        }
       }
     }
 
-    cd();
+    startconnection();
 
     return function cleanup() {
       if (socket) socket.on("disconnect", () => {});
     };
   }, []);
   useEffect(() => {
-    if (socket) {
-      socket.on("connect", () => { });
-      socket.on("closethread", () => {
-        console.log("cdmlk")
-        history.replace("/")
-      })
-      socket.on("threadupdate", (data) => {
-        console.log(data);
-        setThread(data.thread);
-      });
-      socket.on("closeredirect", () => {
-        history.replace("/");
-      });
-      socket.emit("checkid", { tid: params.tid }, (data) => {
-        if (!data.auth) {
-          history.replace("/");
-        } else {
+    async function con() {
+      if (socket) {
+        socket.on("connect", () => {});
+        socket.on("closethread", (data) => {
+          setClosedAlert(data.message);
+          setTimeout(() => {
+            history.replace("/");
+            setClosedAlert(null);
+          }, 5000);
+        });
+        socket.on("threadupdate", (data) => {
           setThread(data.thread);
-        }
-      });
+        });
+        socket.on("closeredirect", () => {
+          history.replace("/");
+        });
+        socket.on("message", (data) => {
+          clearTimeout(timeout);
+          changeTimeout(
+            setTimeout(() => {
+              setInfoalert(null);
+            }, 4000)
+          );
+          setInfoalert(data);
+        });
+      }
     }
-  
+    con();
+    return function cleanup() {
+      if (socket) socket.on("disconnect", () => {});
+    };
+  }, [socket]);
 
-  },[socket])
-  function cdC() {
-    socket.emit("sendm", { tid: params.tid }, () => {});
-  }
   async function raiseHand() {
+    setLoading(true);
     socket.emit("raiseHand", { userid: user._id, tid: params.tid }, (data) => {
-      //consolele.log(data);
-      //consolele.log(user._id);
       setThread(data.thread);
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
     });
   }
 
@@ -110,46 +126,163 @@ export default function Thread() {
   }
 
   function allowToText(item) {
+    setLoading(true);
     socket.emit("allowtotext", { item: item, tid: params.tid }, (data) => {
       setThread(data.thread);
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
     });
   }
   function sendChat(obj) {
-    socket.emit("sendmessage", { ...obj, tid: params.tid });
-  }
-  function addemoji(obj) {
-    socket.emit("addemoji", { ...obj, tid: params.tid });
-  }
-  function addToHighlight(obj) {
-    socket.emit("addtohighlights", { ...obj, tid: params.tid });
-  }
-  function addMembersToPrivateThread(obj) {
-    socket.emit("addmemberstoprivatechat", { ...obj, tid: params.tid }, () => {
-      setAddMemberModal(false);
+    setLoading(true);
+    socket.emit("sendmessage", { ...obj, tid: params.tid }, (data) => {
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
     });
   }
+  function addToHighlight(obj) {
+    setLoading(true);
+    socket.emit("addtohighlights", { ...obj, tid: params.tid }, (data) => {
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
+    });
+  }
+  function addMembersToPrivateThread(obj) {
+    setLoading(true);
+    socket.emit(
+      "addmemberstoprivatechat",
+      { ...obj, tid: params.tid },
+      (data) => {
+        setAddMemberModal(false);
+        if (data.success) {
+          setLoading(false);
+        } else {
+          setTimeout(() => {
+            setErroralert(null);
+          }, 4000);
+          setErroralert("Error , please try again.");
+          setLoading(false);
+        }
+      }
+    );
+  }
   function startedtyping() {
-    socket.emit("startedtyping", { tid: params.tid });
+    socket.emit("startedtyping", { tid: params.tid }, (data) => {
+      if (data.success) {
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+      }
+    });
   }
   function stopedtyping() {
-    socket.emit("stoppedtyping", { tid: params.tid });
+    socket.emit("stoppedtyping", { tid: params.tid }, (data) => {
+      if (data.success) {
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+      }
+    });
   }
   function makeadmin(obj) {
-    socket.emit("makeadmin", { ...obj, tid: params.tid });
+    setLoading(true);
+    socket.emit("makeadmin", { ...obj, tid: params.tid }, (data) => {
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
+    });
   }
   function savethread(obj) {
-    socket.emit("savethread", { tid: params.tid });
+    setLoading(true);
+    socket.emit("savethread", { tid: params.tid }, (data) => {
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
+    });
   }
   function savethreadandclose() {
-    socket.emit("savethreadandclose", { tid: params.tid });
+    setLoading(true);
+    socket.emit("savethreadandclose", { tid: params.tid }, (data) => {
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
+    });
   }
   function deletethreadandclose() {
-    socket.emit("deletethreadandclose", { tid: params.tid });
-
+    setLoading(true);
+    socket.emit("deletethreadandclose", { tid: params.tid }, (data) => {
+      if (data.success) {
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
+    });
+  }
+  function updatethreadsettings(obj) {
+    setLoading(true);
+    socket.emit("updatethreadsettings", { ...obj, tid: params.tid }, (data) => {
+      if (data.success) {
+        setShowSettings(false);
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setErroralert(null);
+        }, 4000);
+        setErroralert("Error , please try again.");
+        setLoading(false);
+      }
+    });
   }
   if (user._id === thread.createdbyid) {
     return (
-      <div>
+      <div style={{paddingBottom:"1rem"}}>
         <ThreadTemp
           thread={thread}
           checkAvailability={checkAvailability}
@@ -157,7 +290,6 @@ export default function Thread() {
           admin={true}
           allowToText={allowToText}
           sendChat={sendChat}
-          addemoji={addemoji}
           addToHighlight={addToHighlight}
           setAddMemberModal={setAddMemberModal}
           startedtyping={startedtyping}
@@ -166,9 +298,15 @@ export default function Thread() {
           savethread={savethread}
           savethreadandclose={savethreadandclose}
           deletethreadandclose={deletethreadandclose}
+          updatethreadsettings={updatethreadsettings}
+          showsettings={showsettings}
+          setShowSettings={setShowSettings}
         />
+        {loading && <Loader />}
+        {infoalert && <InfoAlert mdesc={infoalert} />}
 
-    
+        {closedalert && <ClosedAlert mdesc={closedalert} />}
+
         {addmembermodal && (
           <AddMemberModal
             addMembersToPrivateThread={addMembersToPrivateThread}
@@ -182,7 +320,7 @@ export default function Thread() {
   }
   if (user._id !== thread.createdbyid) {
     return (
-      <>
+      <div style={{paddingBottom:"1rem"}}>
         {thread.topic && (
           <ThreadTemp
             thread={thread}
@@ -193,10 +331,12 @@ export default function Thread() {
             sendChat={sendChat}
             startedtyping={startedtyping}
             stopedtyping={stopedtyping}
-            addemoji={addemoji}
           />
         )}
-      </>
+        {loading && <Loader />}
+        {closedalert && <ClosedAlert mdesc={closedalert} />}
+        {infoalert && <InfoAlert mdesc={infoalert} />}
+      </div>
     );
   }
 }

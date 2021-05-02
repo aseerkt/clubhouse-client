@@ -11,6 +11,18 @@ export default (state, action) => {
           return {
             ...state,
             user: action.payload,
+        };
+      case "ERROR_ALERT":
+          return {
+            ...state,
+            erroralert: action.payload.message,
+            errortimeout: action.payload.timeout,
+        };
+        case "INFO_ALERT":
+          return {
+            ...state,
+            infoalert: action.payload.message,
+            infotimeout: action.payload.timeout,
           };
       default:
         return;
