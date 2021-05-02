@@ -25,7 +25,7 @@ export default function ThreadAdminPanelLeft({
                     <div>
                       <Image
                         avatar
-                        src="https://react.semantic-ui.com/images/avatar/small/helen.jpg"
+                        src={item.avatar}
                       />
 
                       <List.Content>
@@ -49,10 +49,10 @@ export default function ThreadAdminPanelLeft({
                           cursor: "pointer",
                         }}
                       />
-                      <Icon
+                      {/* <Icon
                         name="close"
                         style={{ padding: "0.2rem", cursor: "pointer" }}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </List.Item>
