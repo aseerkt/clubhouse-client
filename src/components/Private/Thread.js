@@ -6,6 +6,7 @@ import ThreadTemp from "../General/ThreadTemp";
 import axios from "axios";
 import InfoAlert from "../General/InfoAlert";
 import Loader from "../General/Loader";
+import ErrorAlert from "../General/ErrorAlert";
 import AddMemberModal from "../General/AddMemberModal";
 import ClosedAlert from "../General/ClosedAlert";
 export default function Thread() {
@@ -307,6 +308,7 @@ export default function Thread() {
         />
         {loading && <Loader />}
         {infoalert && <InfoAlert mdesc={infoalert} />}
+        {erroralert && <ErrorAlert mdesc={infoalert} />}
 
         {closedalert && <ClosedAlert mdesc={closedalert} />}
 
@@ -337,6 +339,8 @@ export default function Thread() {
           />
         )}
         {loading && <Loader />}
+        {erroralert && <ErrorAlert mdesc={infoalert} />}
+
         {closedalert && <ClosedAlert mdesc={closedalert} />}
         {infoalert && <InfoAlert mdesc={infoalert} />}
       </div>
