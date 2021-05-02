@@ -26,15 +26,7 @@ By using threadchat application will be get the following features -
 
 * Thread is a live , real time page having interaction using ## websockets
 
-* Every activity is view through a popup
 
-* Users can view the highlights of the thread.
-
-* Users can copy the link of the thread.
-
-* Users can see the thread audience.
-
-* Admin is highlihted with red.
 * Thread has two view one is for the admin and one for the audience , admin is the on who creates the chat.
 
 ### Thread for admin
@@ -53,10 +45,14 @@ By using threadchat application will be get the following features -
 * Admin has the control over the settings
 * Admin can make the chat private anytime.
 
+
+* If admin leaves the thread without making someone else an admin , then the next immediate person in the thread becomes the admin
 * Audience view 
  
 * Public thread
-![Screenshot (150)](https://user-images.githubusercontent.com/33376200/116826059-c6ed5080-abaf-11eb-821d-1ceed3bc14c1.png)
+
+![image](https://user-images.githubusercontent.com/33376200/116826416-7aa31000-abb1-11eb-881f-38fac2aa6452.png)
+
 
 * In public thread audience can send messages and can see the highlights.
 
@@ -93,13 +89,22 @@ Status can be seen in the thread audience list.
 
 ![Screenshot (153)](https://user-images.githubusercontent.com/33376200/116826345-2ac44900-abb1-11eb-8c7a-520d68a30314.png)
 
+* Filtter options at home page
 
+![image](https://user-images.githubusercontent.com/33376200/116826433-94dcee00-abb1-11eb-8235-dbc04c298c25.png)
 
+* Profile view
 
+* User can delete there thread.
 
+![image](https://user-images.githubusercontent.com/33376200/116826454-b047f900-abb1-11eb-8c2e-4a9c617459aa.png)
 
+* Every activity is view through a popup
 
+* Users can viewed the highlights of the thread.
 
+* Users can copy the link of the thread.
 
-*
-## Available Scripts
+* Users can see the thread audience.
+
+* Admin is highlihted with red.
