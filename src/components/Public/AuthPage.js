@@ -87,8 +87,8 @@ export default function AuthPage() {
             id="form-input-control-error-email"
             control={Input}
             value={emailid}
-            label="Email"
-            placeholder="joe@schmoe.com"
+            label="Enter your mail id"
+            placeholder="jhon@gmail.com"
             onChange={(e) => setEmailId(e.target.value)}
             error={erroremail ? "Please enter a valid mail id" : null}
           />
