@@ -55,11 +55,14 @@ export default function Profile() {
     const token = localStorage.getItem("hackathon");
     if (token) {
       await axios
-        .delete(`https://threadoverflow.herokuapp.com/api/chat/deletethread/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(
+          `https://threadoverflow.herokuapp.com/api/chat/deletethread/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => {
           setMyChatRooms(res.data.chatrooms);
         });
@@ -80,16 +83,22 @@ export default function Profile() {
         />
         {current_page === "threads" && (
           <>
-            {mychatrooms.all.map((item, index) => (
-              <ItemCard
-                key={index}
-                item={item}
-                user={user}
-                getDateTime={getDateTime}
-                deletethread={deletethread}
-                type="profile"
-              />
-            ))}
+            {mychatrooms.all.length > 0 ? (
+              <>
+                {mychatrooms.all.map((item, index) => (
+                  <ItemCard
+                    key={index}
+                    item={item}
+                    user={user}
+                    getDateTime={getDateTime}
+                    deletethread={deletethread}
+                    type="profile"
+                  />
+                ))}
+              </>
+            ) : (
+              <p className="center-message">No threads available.</p>
+            )}
           </>
         )}
 
@@ -109,7 +118,7 @@ export default function Profile() {
                 ))}
               </>
             ) : (
-              <p>No live chats available.</p>
+              <p className="center-message">No live chats available.</p>
             )}
           </div>
         )}
@@ -129,7 +138,7 @@ export default function Profile() {
                 ))}
               </>
             ) : (
-              <p>No live chats available.</p>
+              <p className="center-message">No private chats available.</p>
             )}
           </div>
         )}
@@ -149,7 +158,7 @@ export default function Profile() {
                 ))}
               </>
             ) : (
-              <p>No live chats available.</p>
+              <p className="center-message">No saved chats available.</p>
             )}
           </div>
         )}
@@ -169,7 +178,7 @@ export default function Profile() {
                 ))}
               </>
             ) : (
-              <p>No live chats available.</p>
+              <p className="center-message">No upcoming chats available.</p>
             )}
           </div>
         )}

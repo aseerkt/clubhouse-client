@@ -154,7 +154,7 @@ export default function Home() {
                 ))}
               </>
             ) : (
-              <p>No Upcoming threads available.</p>
+              <p className="center-message">No Upcoming threads available.</p>
             )}
           </div>
         )}
@@ -172,7 +172,7 @@ export default function Home() {
                 ))}
               </>
             ) : (
-              <p>No saved threads available.</p>
+              <p className="center-message">No saved threads available.</p>
             )}
           </div>
         )}
