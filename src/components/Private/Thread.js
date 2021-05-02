@@ -39,7 +39,7 @@ export default function Thread() {
               setThread(res.data.thread);
             } else if (res.data.thread.islive) {
               setLoading(true);
-              var newSocket = io("http://192.168.0.105:3005", {
+              var newSocket = io("https://threadoverflow.herokuapp.com", {
                 query: {
                   token: localStorage.getItem("hackathon"),
                 },
