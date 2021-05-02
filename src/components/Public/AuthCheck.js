@@ -25,6 +25,7 @@ export default function AuthCheck() {
             loginuser(details,false);
           })
           .catch((err) => {
+            loginuser({token:null,user:{}},true)
             console.log(err.response);
           });
       } else {
