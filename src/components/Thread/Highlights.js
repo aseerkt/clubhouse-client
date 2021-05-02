@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal,Comment,Button} from "semantic-ui-react"
+import {Modal,Comment,Button} from "../../semantichelper"
 export default function Highlights({highlightsmodal,getDateTime,setHighlightsModal,thread}) {
     return (
         <Modal

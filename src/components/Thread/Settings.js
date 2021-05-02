@@ -6,16 +6,16 @@ import {
   Select,
   TextArea,
   Dropdown,
+  Header,
   Button,
   Icon,
-} from "semantic-ui-react";
+} from "../../semantichelper";
 import DateTimePicker from "react-datetime-picker";
 
 export default function Settings({
   showmodal,
   formdata,
   setFormData,
-
   members,
   setShowModall,
   createRoom,
@@ -37,9 +37,11 @@ export default function Settings({
   return (
     <Modal open={showmodal}>
       <Modal.Content>
-        <p>Create a room !</p>
+        <Header as="h2">
+          {type === "new" ? "Create a thread" : "Settings of thread"}
+        </Header>
       </Modal.Content>
-      <Form style={{ padding: "2rem" }}>
+      <Form style={{ padding: "1rem" }}>
         <Form.Group widths="equal">
           <Form.Field
             control={Input}
@@ -101,7 +103,7 @@ export default function Settings({
                 });
               } else setFormData({ ...formdata, chat_priv: value });
             }}
-            label="Is this a private debate?"
+            label="Is this a private thread?"
             placeholder="Yes or No"
             options={options_privacy}
           />
@@ -135,7 +137,7 @@ export default function Settings({
                 onChange={(e, { value }) =>
                   setFormData({ ...formdata, schedule_later: value })
                 }
-                label="Start debate / conversation now or later?"
+                label="Start this thread later?"
                 placeholder="Yes or No"
                 options={options_privacy}
               />

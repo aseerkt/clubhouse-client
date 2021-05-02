@@ -1,5 +1,5 @@
 import React from "react";
-import { Comment, Form, Header, Icon, Button } from "semantic-ui-react";
+import { Comment, Form, Header, Icon, Button } from "../../semantichelper";
 export default function AddComment({
   thread,
   admin,

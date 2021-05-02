@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Image, Header, Icon, Label } from "semantic-ui-react";
+import { List, Image, Header, Icon, Label } from "../../semantichelper";
 export default function ThreadAdminPanelRight({
   thread,
   admin,

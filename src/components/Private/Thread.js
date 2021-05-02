@@ -28,11 +28,14 @@ export default function Thread() {
       if (token) {
         setLoading(true);
         await axios
-          .get(`https://threadoverflow.herokuapp.com/api/chat/getthread/${params.tid}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
+          .get(
+            `https://threadoverflow.herokuapp.com/api/chat/getthread/${params.tid}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
           .then((res) => {
             if (res.data.thread.closed) {
               setLoading(false);
@@ -280,9 +283,9 @@ export default function Thread() {
       }
     });
   }
-  if (user._id === thread.createdbyid) {
+  if (thread.createdbyid && user._id === thread.createdbyid) {
     return (
-      <div style={{paddingBottom:"1rem"}}>
+      <div style={{ paddingBottom: "1rem" }}>
         <ThreadTemp
           thread={thread}
           checkAvailability={checkAvailability}
@@ -318,9 +321,9 @@ export default function Thread() {
       </div>
     );
   }
-  if (user._id !== thread.createdbyid) {
+  if (thread.createdbyid && user._id !== thread.createdbyid) {
     return (
-      <div style={{paddingBottom:"1rem"}}>
+      <div style={{ paddingBottom: "1rem" }}>
         {thread.topic && (
           <ThreadTemp
             thread={thread}
@@ -339,4 +342,5 @@ export default function Thread() {
       </div>
     );
   }
+  return <>{loading && <Loader />}</>;
 }

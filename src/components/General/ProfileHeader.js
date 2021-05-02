@@ -1,5 +1,5 @@
 import React from "react";
-import { Item, Button } from "semantic-ui-react";
+import { Item, Button } from "../../semantichelper";
 export default function ProfileHeader({ user, loginuser, history }) {
   return (
     <Item.Group divided>

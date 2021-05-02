@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Form, Dropdown } from "semantic-ui-react";
+import {  Dropdown } from "../../semantichelper";
 import MenuBar from "../General/MenuBar";
 import Loader from "../General/Loader";
 import ItemCard from "../General/ItemCard";
@@ -14,9 +14,9 @@ export default function Home() {
     upcoming: [],
     saved: [],
   });
+  const [filterchatrooms, setFilterChatRooms] = useState([]);
 
   const [events, setEvents] = useState([]);
-
   useEffect(() => {
     async function getChatRooms() {
       setLoader(true);
@@ -36,7 +36,7 @@ export default function Home() {
               upcoming: res.data.upcomingchatrooms,
               saved: res.data.savedchatrooms,
             });
-
+            setFilterChatRooms(res.data.chatrooms);
             const event = res.data.upcomingchatrooms.map((item, index) => {
               return {
                 id: index,
@@ -63,21 +63,42 @@ export default function Home() {
     const v = new Date(val);
     return v.toLocaleString();
   }
+  const options_cat = [
+    { key: "1", text: "All", value: "all" },
+    { key: "2", text: "General", value: "general" },
+    { key: "3", text: "Technical", value: "technical" },
+    { key: "4", text: "News", value: "news" },
+    { key: "5", text: "Food", value: "food" },
+    { key: "6", text: "Covid", value: "covid" },
+    { key: "7", text: "Sports", value: "sports" },
+  ];
+  function filterthreads(val) {
+    setCurrentPage("threads");
+    if (val !== "all") {
+      const fdata = chatrooms.current.filter(
+        (item) => item.category.toString().toLowerCase() === val
+      );
+      setFilterChatRooms(fdata);
+    } else {
+      setFilterChatRooms(chatrooms.current)
+    }
+  }
+
   return (
     <>
       {loader && <Loader />}
       <div className="search-page">
-        <Form.Group widths="equal">
+        <span>
+          Show me threads by category {" "}
           <Dropdown
-            placeholder="Search for threads"
-            fluid
-            multiple
-            search
-            selection
-            label="Select members"
-            onChange={(e, { value }) => {}}
+            inline
+            options={options_cat}
+            defaultValue={options_cat[0].value}
+            onChange={(e, { value }) => {
+              filterthreads(value);
+            }}
           />
-        </Form.Group>
+        </span>
 
         <MenuBar
           current_page={current_page}
@@ -86,15 +107,18 @@ export default function Home() {
         />
         {current_page === "threads" && (
           <div>
-            {chatrooms.current.map((item, index) => (
-              <ItemCard
-                key={index}
-                item={item}
-                getDateTime={getDateTime}
-                type="home"
-              />
-            ))}
-          </div>
+            {filterchatrooms.length > 0 ?
+              <div>
+                {filterchatrooms.map((item, index) => (
+                  <ItemCard
+                    key={index}
+                    item={item}
+                    getDateTime={getDateTime}
+                    type="home"
+                  />
+                ))}
+              </div> : <p className="center-message">No threads available.</p>}
+            </div>
         )}
 
         {current_page === "livethreads" && (
@@ -111,7 +135,7 @@ export default function Home() {
                 ))}
               </>
             ) : (
-              <p>No live chats available.</p>
+              <p className="center-message">No live threads available.</p>
             )}
           </div>
         )}
@@ -130,7 +154,7 @@ export default function Home() {
                 ))}
               </>
             ) : (
-              <p>No upcoming chats available.</p>
+              <p>No Upcoming threads available.</p>
             )}
           </div>
         )}
@@ -148,7 +172,7 @@ export default function Home() {
                 ))}
               </>
             ) : (
-              <p>No upcoming chats available.</p>
+              <p>No saved threads available.</p>
             )}
           </div>
         )}

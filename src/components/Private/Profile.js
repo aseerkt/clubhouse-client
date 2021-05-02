@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { Header } from "semantic-ui-react";
+import { Header } from "../../semantichelper";
 import Loader from "../General/Loader";
 import MenuBar from "../General/MenuBar";
 import ProfileHeader from "../General/ProfileHeader";
@@ -84,6 +84,7 @@ export default function Profile() {
               <ItemCard
                 key={index}
                 item={item}
+                user={user}
                 getDateTime={getDateTime}
                 deletethread={deletethread}
                 type="profile"
@@ -100,6 +101,7 @@ export default function Profile() {
                   <ItemCard
                     key={index}
                     item={item}
+                    user={user}
                     getDateTime={getDateTime}
                     deletethread={deletethread}
                     type="profile"
@@ -119,6 +121,7 @@ export default function Profile() {
                   <ItemCard
                     key={index}
                     item={item}
+                    user={user}
                     getDateTime={getDateTime}
                     deletethread={deletethread}
                     type="profile"
@@ -138,6 +141,7 @@ export default function Profile() {
                   <ItemCard
                     key={index}
                     item={item}
+                    user={user}
                     getDateTime={getDateTime}
                     deletethread={deletethread}
                     type="profile"
@@ -156,6 +160,7 @@ export default function Profile() {
                 {mychatrooms.upcoming.map((item, index) => (
                   <ItemCard
                     key={index}
+                    user={user}
                     item={item}
                     getDateTime={getDateTime}
                     deletethread={deletethread}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button } from "semantic-ui-react";
+import { Modal, Button } from "../../semantichelper";
 
 export default function MobileViewFeatureModal({
   view,

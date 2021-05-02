@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "semantic-ui-react";
+import { Button, Modal,Dropdown,Form } from "../../semantichelper";
 import axios from "axios";
-import {
-  Icon,
-  Form,
-  Input,
-  Select,
-  TextArea,
-  Dropdown,
-} from "semantic-ui-react";
+
 export default function AddMemberModal({
   setAddMemberModal,
   addMembersToPrivateThread,

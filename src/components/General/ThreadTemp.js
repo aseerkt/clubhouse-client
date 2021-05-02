@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Header, Comment, Icon } from "semantic-ui-react";
+import { Header, Comment, Icon } from "../../semantichelper";
 import ThreadAdminPanelLeft from "../Thread/ThreadAdminPanelLeft";
 import Highlights from "../Thread/Highlights";
 import ThreadDescription from "../Thread/ThreadDescription";
@@ -172,36 +172,39 @@ export default function ThreadTemp({
               )}
             </>
           ))}
-
-          {!achat && !admin ? (
+          {!thread.closed && (
             <>
-              {handraise ? (
-                <Header as="h4">
-                  You have raised your , please wait until admin accepts your request.
-                  <Icon name="hand paper" />
-                </Header>
-              ) : (
-                <Header
-                
-                  as="h5"
-                >
-                  This thread is restricted to only few people to chat , i if
-                  you want to chat then{" "}
-                    <span
-                      className="click-here"
-                    onClick={() => {
-                      raiseHand();
-                      setHandRaised(true);
-                    }}
-                  >
-                    {" "}
-                    Click here to here to raise your hand
-                    <Icon name="hand paper" />
-                  </span>
-                </Header>
-              )}
+              {" "}
+              {!achat && !admin ? (
+                <>
+                  {handraise ? (
+                    <Header as="h4">
+                      You have raised your , please wait until admin accepts
+                      your request.
+                      <Icon name="hand paper" />
+                    </Header>
+                  ) : (
+                    <Header as="h5">
+                      This thread is restricted to only few people to chat , i
+                      if you want to chat then{" "}
+                      <span
+                        className="click-here"
+                        onClick={() => {
+                          raiseHand();
+                          setHandRaised(true);
+                        }}
+                      >
+                        {" "}
+                        Click here to here to raise your hand
+                        <Icon name="hand paper" />
+                      </span>
+                    </Header>
+                  )}
+                </>
+              ) : null}
             </>
-          ) : null}
+          )}
+
           <AddComment
             thread={thread}
             admin={admin}

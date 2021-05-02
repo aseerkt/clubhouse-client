@@ -1,5 +1,5 @@
 import React from "react";
-import { Comment } from "semantic-ui-react";
+import { Comment } from "../../semantichelper";
 export default function CommentNormal({
   item,
   admin,

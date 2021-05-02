@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Label } from "semantic-ui-react";
+import { Button, Form, Input, Image, Header } from "../../semantichelper";
 import Loader from "../General/Loader";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -72,7 +72,16 @@ export default function AuthPage() {
   return (
     <>
       {loader && <Loader />}
+
       <div className="auth-form">
+        <div className="auth-image">
+          <Image
+            src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+            size="small"
+            circular
+          />
+        </div>
+        <Header as="h3">Welcom to clubhouse !!</Header>
         <Form>
           <Form.Field
             id="form-input-control-error-email"
@@ -111,6 +120,7 @@ export default function AuthPage() {
           )}
           <Button
             type="submit"
+            primary
             onClick={() => {
               if (screen === "email") {
                 sendOtp();

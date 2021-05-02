@@ -1,5 +1,5 @@
 import React from "react";
-import { Item, Label, Icon, Menu } from "semantic-ui-react";
+import { Item, Label, Icon, Menu } from "../../semantichelper";
 import copy from "copy-to-clipboard";  
 export default function ThreadDescription({
   thread,
